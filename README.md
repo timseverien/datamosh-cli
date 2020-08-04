@@ -29,15 +29,22 @@ npx -p datamosh-cli datamosh [command] [options]
 ## Usage
 
 ```shell
-datamosh [command] <source> <destination> [options]
+datamosh [command] <source> <destination> [options] [-- ffmpeg arguments]
 ```
+
+Internally [`ffmpeg-static`](https://www.npmjs.com/package/ffmpeg-static) is being used to convert various formats to corruptable formats. Consequently, `<source>` and `<destination>` can be whatever format ffmpeg gets. You can pass additional settings (like encoding, compression, etc) after the `--` argument:
+
+```
+datamosh all stickers.mp4 stickers-destroyed.mp4 -- -c:v libx264
+```
+
+Supplying additional parameters to ffmpeg might result in weird behaviour, so use with caution.
 
 ### `datamosh all <source> <destination> [options]`
 
 Option            | Default value | Description
 ------------------|---------------|--------------------------------------------------------------------
 `--overwrite`     | -             | Skips overwrite prompt and overwrites `<destination>` if it exists
-`-q`, `--quality` | `1`           | Set output quality; 0 for lots of compression and 1 for lossless (for videos)
 
 The `all` command runs all commands in the following order:
 
@@ -47,7 +54,7 @@ The `all` command runs all commands in the following order:
 #### Example
 
 ```shell
-datamosh all examples/stickers.mp4 examples/stickers-all.gif
+datamosh all examples/stickers.mp4 examples/stickers-all.gif -- -filter_complex 'fps=15'
 ```
 
 ![](examples/stickers-all.gif)
@@ -58,14 +65,13 @@ Option            | Default value | Description
 ------------------|---------------|--------------------------------------------------------------------
 `--frame-offset`  | `-1`          | Offset to start looking for neighbouring frames
 `--overwrite`     | -             | Skips overwrite prompt and overwrites `<destination>` if it exists
-`-q`, `--quality` | `1`           | Set output quality; 0 for lots of compression and 1 for lossless (for videos)
 
 The `remove-keyframes` command replaces keyframes (I-frames) with delta frames (B/P-frames), resulting in the pixel of one scene leaking into to next, similar to [the music video of A$AP Mob - Yamborghini High](https://www.youtube.com/watch?v=tt7gP_IW-1w). The first keyframe is preserved. When replacing keyframe `n`, datamosh-cli starts at frame `n + frameOffset` and loops back in time until it finds a delta frame. This means that a positive frame offset can be used to cause (intentional) stuttering.
 
 #### Example
 
 ```shell
-datamosh remove-keyframes examples/stickers.mp4 examples/stickers-remove-keyframes.gif --frame-offset 4 --quality 0.75
+datamosh remove-keyframes examples/stickers.mp4 examples/stickers-remove-keyframes.gif --frame-offset 4 -- -filter_complex 'fps=15'
 ```
 
 ![](examples/stickers-remove-keyframes.gif)
@@ -76,7 +82,6 @@ Option                | Default value | Description
 ----------------------|---------------|--------------------------------------------------------------------
 `--overwrite`         | -             | Skips overwrite prompt and overwrites `<destination>` if it exists
 `-p`, `--probability` | `0.1` (=10%)  | Probability of swapping a frame
-`-q`, `--quality`     | `1`           | Set output quality; 0 for lots of compression and 1 for lossless (for videos)
 `-r`, `--range`       | `2`           | Range of neighbouring frames to swap
 
 The `shuffle-frames` command shuffles B/P-frames around. Each B/P-frame has a probability of `probability` of being swapped. A greater `probability` will cause more distortion. If frame `n` is being swapped, it will swap with one of the neighbouring frames, based on `range`. A greater `range` will cause more stuttering, depending on `probability`.
@@ -84,10 +89,19 @@ The `shuffle-frames` command shuffles B/P-frames around. Each B/P-frame has a pr
 #### Example
 
 ```shell
-datamosh shuffle-frames examples/stickers.mp4 examples/stickers-shuffle-frames.gif --probability 0.25 --range 4
+datamosh shuffle-frames examples/stickers.mp4 examples/stickers-shuffle-frames.gif --probability 0.25 --range 4 -- -filter_complex 'fps=15'
 ```
 
 ![](examples/stickers-shuffle-frames.gif)
+
+## What are these stickers from?
+
+- [Fronteers](https://fronteers.nl) - a Dutch union for front-end web developers
+- [Hawgs](https://landyachtz.com/wheels) - wheel brand of Landyachtz skateboards
+- [Landyachtz](https://landyachtz.com) - skateboard, longboard, and apparel brand
+- [MODALZ MODALZ MODALZ](https://modalzmodalzmodalz.com) - a site by [@adrianegger](https://twitter.com/adrianegger) revealing a painful truth
+- [S1 Helmet Co.](https://shop.s1helmets.com) - skate helmets to protect your skull
+- [Vans](https://www.vans.com) - dope shoes
 
 ## Disclaimer
 
