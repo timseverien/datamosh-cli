@@ -1,0 +1,24 @@
+{
+  "name": "datamosh-cli",
+  "version": "1.0.0",
+  "bin": {
+    "datamosh": "bin/datamosh.js"
+  },
+  "scripts": {
+    "create-examples": "run-p create-examples:*",
+    "create-examples:all": "node bin/datamosh.js all examples/stickers.mp4 examples/stickers-all.gif",
+    "create-examples:stickers-remove-keyframes": "node bin/datamosh.js remove-keyframes examples/stickers.mp4 examples/stickers-remove-keyframes.gif --overwrite --frame-offset 4 --quality 0.75",
+    "create-examples:stickers-shuffle-frames": "node bin/datamosh.js shuffle-frames examples/stickers.mp4 examples/stickers-shuffle-frames.gif --probability 0.25 --range 4"
+  },
+  "dependencies": {
+    "aviglitch": "^0.3.1",
+    "commander": "^6.0.0",
+    "ffmpeg": "0.0.4",
+    "ffmpeg-static": "^4.2.6",
+    "fs-extra": "^9.0.1",
+    "inquirer": "^7.3.3"
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.1.5"
+  }
+}
