@@ -9,10 +9,14 @@
     "access": "public"
   },
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/timseverien/datamosh-cli.git"
+    "type": "git",
+    "url": "https://github.com/timseverien/datamosh-cli.git"
   },
-  "keywords": ["datamosh", "datamoshing", "glitch"],
+  "keywords": [
+    "datamosh",
+    "datamoshing",
+    "glitch"
+  ],
   "bin": {
     "datamosh": "bin/datamosh.js"
   },
