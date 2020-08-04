@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const program = require('commander');
 const commandAll = require('../lib/commands/all');
 const commandRemoveKeyframes = require('../lib/commands/remove-keyframes');
