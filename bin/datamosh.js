@@ -6,8 +6,6 @@ const commandRemoveKeyframes = require('../lib/commands/remove-keyframes');
 const commandShuffleFrames = require('../lib/commands/shuffle-frames');
 
 function createCommandAction(command) {
-    console.log('Wollah vriend');
-
     return async (source, destination, options) => {
         let ffmpegArguments = [];
 
