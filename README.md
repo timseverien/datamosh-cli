@@ -32,13 +32,13 @@ npx -p datamosh-cli datamosh [command] [options]
 datamosh [command] <source> <destination> [options] [-- ffmpeg arguments]
 ```
 
-Internally [`ffmpeg-static`](https://www.npmjs.com/package/ffmpeg-static) is being used to convert various formats to corruptable formats. Consequently, `<source>` and `<destination>` can be whatever format ffmpeg gets. You can pass additional settings (like encoding, compression, etc) after the `--` argument:
+[`ffmpeg-static`](https://www.npmjs.com/package/ffmpeg-static) is used to convert various formats to corruptable formats. Consequently, `<source>` and `<destination>` can be whatever format ffmpeg gets. You can pass additional settings (like encoding, compression, etc) after the `--` argument:
 
 ```
 datamosh all stickers.mp4 stickers-destroyed.mp4 -- -c:v libx264
 ```
 
-Supplying additional parameters to ffmpeg might result in weird behaviour, so use with caution.
+Additional parameters to ffmpeg might clash with what datamosh tries to do, so use with caution.
 
 ### `datamosh all <source> <destination> [options]`
 
